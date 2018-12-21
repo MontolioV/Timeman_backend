@@ -1,0 +1,16 @@
+{
+  "name": "time_manager_backend",
+  "version": "1.0.0",
+  "description": "Node backend for time manager.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "MontolioV",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mongodb": "^3.1.10"
+  }
+}
