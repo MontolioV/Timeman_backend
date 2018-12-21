@@ -3,8 +3,10 @@ const MINUTE_IN_MS = 60000;
 const SECOND_IN_MS = 1000;
 
 class TimeInterval {
-    constructor({startDate}) {
-        this.start = startDate;
+    constructor({start = new Date(), end, duration}) {
+        this.start = start;
+        this.end = end;
+        this.duration = duration;
     }
 
     estimatedEnd(hours = 0, minutes = 0) {
@@ -14,8 +16,9 @@ class TimeInterval {
         return result;
     }
 
-    closeInterval(endDate = new Date()) {
-        this.end = endDate;
+    closeInterval(end = new Date()) {
+        console.log(end);
+        this.end = end;
         const durationObj = {};
         let durationInMs = this.end - this.start;
 

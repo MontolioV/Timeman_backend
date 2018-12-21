@@ -6,7 +6,7 @@ let timeInterval;
 
 beforeEach(function () {
     startDate = new Date(2000, 0, 0, 0, 0, 0);
-    timeInterval = new TimeInterval({startDate: startDate});
+    timeInterval = new TimeInterval({start: startDate});
 });
 
 describe('TimeInterval', function () {
