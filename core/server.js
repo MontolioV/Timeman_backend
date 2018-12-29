@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoClient = require('mongodb').MongoClient;
-const User = require('./user.js');
+const User = require('./user/model.js');
 const TimeInterval = require('./timeInterval.js');
 
 const url = "mongodb://localhost:27017/";

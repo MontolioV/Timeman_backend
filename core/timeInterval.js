@@ -1,7 +1,3 @@
-const HOUR_IN_MS = 3600000;
-const MINUTE_IN_MS = 60000;
-const SECOND_IN_MS = 1000;
-
 class TimeInterval {
     constructor({start = new Date(), end, duration}) {
         this.start = start;
@@ -17,6 +13,10 @@ class TimeInterval {
     }
 
     closeInterval(end = new Date()) {
+        const HOUR_IN_MS = 3600000;
+        const MINUTE_IN_MS = 60000;
+        const SECOND_IN_MS = 1000;
+
         console.log(end);
         this.end = end;
         const durationObj = {};

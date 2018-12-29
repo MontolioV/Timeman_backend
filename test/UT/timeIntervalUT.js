@@ -1,15 +1,15 @@
 const assert = require("assert").strict;
-const TimeInterval = require('../core/timeInterval.js');
+const TimeIntervalUT = require('../../core/timeInterval.js');
 
 let startDate;
 let timeInterval;
 
 beforeEach(function () {
     startDate = new Date(2000, 0, 0, 0, 0, 0);
-    timeInterval = new TimeInterval({start: startDate});
+    timeInterval = new TimeIntervalUT({start: startDate});
 });
 
-describe('TimeInterval', function () {
+describe('TimeIntervalUT', function () {
 
     describe('#estimatedEnd(hours = 0, minutes = 0)', function () {
         it('should return start date with requested offset', function () {

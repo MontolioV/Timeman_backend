@@ -1,0 +1,4 @@
+{
+  "DBHost": "mongodb://localhost:27017/test_time_manager_db",
+  "ServerPort": 18080
+}
