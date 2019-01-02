@@ -4,29 +4,42 @@ const sinon = require('sinon');
 let UserModelMock = {};
 const userRoutes = proxyquire('../../core/user/routes', {'./model': UserModelMock});
 let users = [
-    {email: "1@test"},
-    {email: "2@test"}
+    {login: '1', email: "1@test"},
+    {login: '2', email: "2@test"}
 ];
 
 describe('userUT', () => {
     describe('routes', () => {
         describe('getUsers', () => {
-            it('should query db for all users and write them to response as json', () => {
+            it('should query db for all users and write them to response as json array', () => {
                 UserModelMock.find = (callback) => callback(null, users);
-                let fake = sinon.fake();
+                const jsonMethodFake = sinon.fake();
 
-                userRoutes.getUsers({}, {json: fake});
-
-                expect(fake.lastArg).to.equal(users);
+                userRoutes.getUsers({}, {json: jsonMethodFake});
+                expect(jsonMethodFake.lastArg).to.equal(users);
             });
         });
         describe('getUser', () => {
-            it('should query db for user by email and write it to response as json', () => {
+            it('should query db for user by login and write it to response as json array', () => {
+                UserModelMock.findOne = (queryObject, callback) => {
+                    let login = queryObject.login;
+                    let targetUser = users.find(user => user.login === login);
+                    return callback(null, targetUser);
+                };
+                const jsonMethodFake = sinon.fake();
 
+                userRoutes.getUser({params: {}}, {json: jsonMethodFake});
+                expect(jsonMethodFake.lastArg).to.deep.equal([]);
+
+                userRoutes.getUser({params: {login: '3'}}, {json: jsonMethodFake});
+                expect(jsonMethodFake.lastArg).to.deep.equal([]);
+
+                userRoutes.getUser({params: {login: '1'}}, {json: jsonMethodFake});
+                expect(jsonMethodFake.lastArg).to.deep.equal([users[0]]);
             });
         });
         describe('postUser', () => {
-            it('should get user from request, persist it in db and return db response to http response as json', () => {
+            it('should get user from request, persist it in db and return db response to http response as json array', () => {
 
             });
         });

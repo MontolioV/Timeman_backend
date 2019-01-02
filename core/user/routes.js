@@ -7,7 +7,9 @@ function getUsers(req, res) {
 }
 
 function getUser(req, res) {
-
+    User.findOne({login: req.params.login}, (err, user) => {
+        (user) ? res.json([user]) : res.json([]);
+    });
 }
 
 function postUser(req, res) {
