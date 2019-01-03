@@ -17,7 +17,6 @@ class TimeInterval {
         const MINUTE_IN_MS = 60000;
         const SECOND_IN_MS = 1000;
 
-        console.log(end);
         this.end = end;
         const durationObj = {};
         let durationInMs = this.end - this.start;

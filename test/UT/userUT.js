@@ -1,7 +1,10 @@
+function UserModelMock(body) {
+    this.body = body;
+}
+
 const proxyquire = require('proxyquire');
 const expect = require('chai').expect;
 const sinon = require('sinon');
-let UserModelMock = {};
 const userRoutes = proxyquire('../../core/user/routes', {'./model': UserModelMock});
 let users = [
     {login: '1', email: "1@test"},
@@ -39,8 +42,27 @@ describe('userUT', () => {
             });
         });
         describe('postUser', () => {
-            it('should get user from request, persist it in db and return db response to http response as json array', () => {
+            const error = {};
+            UserModelMock.prototype.save = function (callback) {
+                if (this.body === null) {
+                    return callback(error, null);
+                } else {
+                    return callback(null, this.body);
+                }
+            };
 
+            it('should get user from request, persist it in db and return db response to http response as json array', () => {
+                const jsonMethodFake = sinon.fake();
+                const someNewUser = {some: 'param'};
+
+                userRoutes.postUser({body: JSON.stringify(someNewUser)}, {json: jsonMethodFake});
+                expect(jsonMethodFake.lastArg).to.deep.equal(someNewUser);
+            });
+            it('should write error to response, if error occurs', () => {
+                const jsonMethodFake = sinon.fake();
+
+                userRoutes.postUser({body: null}, {json: jsonMethodFake});
+                expect(jsonMethodFake.lastArg).to.equal(error);
             });
         });
     });
