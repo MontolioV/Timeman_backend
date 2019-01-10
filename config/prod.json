@@ -1,8 +1,0 @@
-{
-  "ServerPort": 18080,
-  "DBHost": "mongodb://localhost:27017/time_manager_db",
-  "DBOptions": {
-    "useNewUrlParser": true,
-    "autoIndex": false
-  }
-}

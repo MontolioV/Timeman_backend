@@ -1,0 +1,14 @@
+{
+  "ServerPort": 18080,
+  "DBHost": "mongodb://localhost:27017/test_time_manager_db",
+  "DBOptions": {
+    "useNewUrlParser": true
+  },
+  "jwksUri": "https://timeman.auth0.com/.well-known/jwks.json",
+  "jwtAudience": "https://montoliov.ml/rs",
+  "jwtIssuer": "https://timeman.auth0.com/",
+  "jwtAlgorithms": [
+    "RS256"
+  ],
+  "CORSAllowedDomain": "http://localhost:3000"
+}
