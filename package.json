@@ -1,5 +1,5 @@
 {
-  "name": "time_manager_backend",
+  "name": "Timeman_backend",
   "version": "1.0.0",
   "description": "Node backend for time manager.",
   "main": "index.js",
