@@ -6,6 +6,7 @@ const config = require('config');
 const user = require('./core/user/routes');
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
+const jwtAuthz = require('express-jwt-authz');
 
 console.log(`Connecting to db ${config.DBHost}`);
 mongoose.connect(config.DBHost, config.DBOptions);
@@ -38,8 +39,9 @@ app.use(function (req, res, next) {
 app.get('/', (req, res) => res.json({message: 'Connection success, waiting for requests'}));
 
 app.route('/users')
-    .get(user.getUsers)
-    // .get(jwtCheck, user.getUsers)
+// .get(user.getUsers)
+// .get(jwtCheck, user.getUsers)
+    .get(jwtCheck, jwtAuthz(['crud:self']), user.getUsers)
     .post(user.postUser);
 app.route('/:login')
     .get(user.getUser);
