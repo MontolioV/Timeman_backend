@@ -1,11 +1,9 @@
-const jwt = require('jsonwebtoken');
+const { parseEmail } = require('../../security/tokenDataDecoder.js');
 const TimeInterval = require('./model');
-const emailPropName = 'https://montoliov.ml/rs|email';
 
 function getUsers(req, res) {
   let token = req.get('authorization').replace('Bearer ', '');
-  console.log(token);
-  console.log(jwt.decode(token));
+  console.log(parseEmail(req));
 
   // User.find(function (err, users) {
   //     res.json(users);

@@ -8,9 +8,7 @@
     "prod": "NODE_ENV=prod NODE_CONFIG_STRICT_MODE=true node startServer.js",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "fix": "eslint --fix --ext .js --ignore-path .gitignore .",
-    "test": "mocha test/**/*.js",
-    "IT": "mocha test/IT/**/*.js",
-    "UT": "mocha test/UT/**/*.js"
+    "test": "mocha --recursive"
   },
   "author": "MontolioV",
   "license": "MIT",
