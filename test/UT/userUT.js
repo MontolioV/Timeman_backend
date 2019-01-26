@@ -5,7 +5,7 @@ function UserModelMock(body) {
 const proxyquire = require('proxyquire');
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const userRoutes = proxyquire('../../core/user/routes', {'./model': UserModelMock});
+const userRoutes = proxyquire('../../src/core/user/routes', {'./model': UserModelMock});
 let users = [
     {login: '1', email: "1@test"},
     {login: '2', email: "2@test"}

@@ -2,10 +2,10 @@
   "name": "Timeman_backend",
   "version": "1.0.0",
   "description": "Node backend for time manager.",
-  "main": "index.js",
+  "main": "startServer.js",
   "scripts": {
-    "dev": "NODE_ENV=dev NODE_CONFIG_STRICT_MODE=true node server.js",
-    "prod": "NODE_ENV=prod NODE_CONFIG_STRICT_MODE=true node server.js",
+    "dev": "NODE_ENV=dev NODE_CONFIG_STRICT_MODE=true node startServer.js",
+    "prod": "NODE_ENV=prod NODE_CONFIG_STRICT_MODE=true node startServer.js",
     "test": "mocha test/**/*.js",
     "IT": "mocha test/IT/**/*.js",
     "UT": "mocha test/UT/**/*.js"

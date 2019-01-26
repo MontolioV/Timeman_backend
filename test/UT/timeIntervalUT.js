@@ -1,5 +1,5 @@
 const assert = require("assert").strict;
-const TimeIntervalUT = require('../../core/timeInterval.js');
+const TimeIntervalUT = require('../../src/core/timeInterval.js');
 
 let startDate;
 let timeInterval;
