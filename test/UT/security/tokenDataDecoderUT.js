@@ -50,5 +50,26 @@ describe('tokenDataDecoderUT', function() {
       const parsedEmail = tokenDataDecoderWithMocks.parseEmail({ req });
       expect(parsedEmail).to.be.null;
     });
+    it("should return undefined if auth token doesn't contain email", function() {
+      const jwtMock = {
+        decode(token) {
+          return token === validToken ? {} : null;
+        },
+      };
+      const tokenDataDecoderWithMocks = proxyquire(
+        '../../../src/security/tokenDataDecoder',
+        {
+          jsonwebtoken: jwtMock,
+        }
+      );
+      const req = {
+        get(header) {
+          expect(header).to.be.equal('authorization');
+          return validToken;
+        },
+      };
+      const parsedEmail = tokenDataDecoderWithMocks.parseEmail({ req });
+      expect(parsedEmail).to.be.undefined;
+    });
   });
 });

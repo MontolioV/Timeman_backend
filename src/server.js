@@ -5,23 +5,10 @@ const bodyParser = require('body-parser');
 const config = require('config');
 const { jwtCheck, isAdminCheck } = require('./security/authAuditor.js');
 const user = require('./core/user/routes');
-// const jwt = require('express-jwt');
-// const jwks = require('jwks-rsa');
-// const jwtAuthz = require('express-jwt-authz');
+const timeInterval = require('./core/timeInterval/actions.js');
 
 class Server {
   start() {
-    // const jwtCheck = jwt({
-    //     secret: jwks.expressJwtSecret({
-    //         cache: true,
-    //         rateLimit: true,
-    //         jwksRequestsPerMinute: 5,
-    //         jwksUri: config.jwksUri
-    //     }),
-    //     audience: config.jwtAudience,
-    //     issuer: config.jwtIssuer,
-    //     algorithms: config.jwtAlgorithms
-    // });
     connectToDB();
     expressSetUp();
     defineRoutes();
@@ -65,6 +52,9 @@ function defineRoutes() {
     .post(user.postUser);
 
   app.route('/:login').get(user.getUser);
+
+  app.route('/intervals').post(jwtCheck, timeInterval.createTimeInterval);
+  app.route('/intervals/:id').get(jwtCheck, timeInterval.getTimeIntervalById);
 }
 
 function startListening() {
