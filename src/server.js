@@ -4,14 +4,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('config');
 const { jwtCheck, isAdminCheck } = require('./security/authAuditor.js');
-const user = require('./core/user/routes');
-const timeInterval = require('./core/timeInterval/actions.js');
+const timeInterval = require('./core/timeInterval/actions');
 
 class Server {
   start() {
     connectToDB();
     expressSetUp();
-    defineRoutes();
+    defineEndpoints();
     startListening();
   }
 }
@@ -40,21 +39,22 @@ function expressSetUp() {
   });
 }
 
-function defineRoutes() {
+function defineEndpoints() {
   app.get('/', (req, res) =>
     res.json({ message: 'Connection success, waiting for requests' })
   );
 
   app
-    .route('/users')
-    .get(jwtCheck, user.getUsers)
-    // .get(jwtCheck, isAdminCheck, user.getUsers)
-    .post(user.postUser);
-
-  app.route('/:login').get(user.getUser);
-
-  app.route('/intervals').post(jwtCheck, timeInterval.createTimeInterval);
-  app.route('/intervals/:id').get(jwtCheck, timeInterval.getTimeIntervalById);
+    .route('/intervals')
+    .get(jwtCheck, timeInterval.getTimeIntervals)
+    .post(jwtCheck, timeInterval.createTimeInterval);
+  app
+    .route('/intervals/:id')
+    .get(jwtCheck, timeInterval.getTimeIntervalById)
+    .delete(jwtCheck, timeInterval.deleteTimeInterval);
+  app
+    .route('/intervals/:id/close')
+    .post(jwtCheck, timeInterval.closeTimeInterval);
 }
 
 function startListening() {

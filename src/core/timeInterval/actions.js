@@ -40,8 +40,27 @@ function getTimeIntervalById(req, res) {
   );
 }
 
-function closeTimeInterval() {}
+function closeTimeInterval(req, res) {
+  TimeInterval.where({ _id: req.params.id, end: { $exists: false } }).updateOne(
+    {
+      end: new Date().getTime(),
+    },
+    function(err) {
+      res.json(err);
+    }
+  );
+}
 
-function deleteTimeInterval() {}
+function deleteTimeInterval(req, res) {
+  TimeInterval.deleteOne({ _id: req.params.id }, function(err) {
+    res.json(err);
+  });
+}
 
-module.exports = { createTimeInterval, getTimeIntervals, getTimeIntervalById };
+module.exports = {
+  createTimeInterval,
+  getTimeIntervals,
+  getTimeIntervalById,
+  closeTimeInterval,
+  deleteTimeInterval,
+};
