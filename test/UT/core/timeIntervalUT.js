@@ -6,11 +6,7 @@ const usersEmail = 'usersEmail@usersEmail';
 const notFoundError = new Error('notFoundError');
 class TimeIntervalSchemaMock {
   constructor({ start, end, tags, owner }) {
-    if (!start) {
-      this.start = new Date().getTime();
-    } else {
-      this.start = start;
-    }
+    this.start = start;
     this.end = end;
     this.tags = !tags ? [] : tags;
     this.owner = owner;
@@ -28,7 +24,7 @@ class TimeIntervalSchemaMock {
     }
   }
 
-  static find(params, callback) {
+  static find(params, projection, options, callback) {
     if (params.start === 'someValueThatWillReturnNoMatch') {
       callback(notFoundError);
     } else {
@@ -67,7 +63,7 @@ describe('timeIntervalUT', function() {
           json: objFromDB => (response = objFromDB),
         };
         timeIntervalActions.createTimeInterval(req, res);
-        expect(response.start).to.not.be.null;
+        expect(response.start).to.not.be.undefined;
         expect(response.end).to.be.undefined;
         expect(response.tags).to.be.deep.equal([]);
         expect(response.owner).to.be.equal(usersEmail);
@@ -75,12 +71,12 @@ describe('timeIntervalUT', function() {
       it('should create TimeInterval from request body', function() {
         const tags = ['1', '2'];
         const req = {
-          body: JSON.stringify({
+          body: {
             start: 10,
             end: 20,
             tags,
             owner: 'should be override',
-          }),
+          },
         };
         let response;
         const res = {
@@ -148,14 +144,12 @@ describe('timeIntervalUT', function() {
             json: objFromDB => (response = objFromDB),
           };
           timeIntervalActions.getTimeIntervals(req, res);
-          expect(response).to.be.deep.equal([
-            {
-              start: { $gte: 18 },
-              end: { lte: 20 },
-              tags: { $in: ['sushi'] },
-              owner: usersEmail,
-            },
-          ]);
+          expect(response).to.be.deep.equal({
+            start: { $gte: 18 },
+            end: { lte: 20 },
+            tags: { $in: ['sushi'] },
+            owner: usersEmail,
+          });
         }
       );
       it('should return empty array in case of no match', function() {

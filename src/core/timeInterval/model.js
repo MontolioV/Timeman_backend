@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const TimeIntervalSchema = new Schema({
-  start: { type: Number, default: new Date().getTime() },
+  start: Number,
   end: Number,
   tags: { type: [String], index: true },
   owner: { type: String, required: true, index: true },

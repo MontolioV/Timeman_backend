@@ -3,9 +3,11 @@ const TimeInterval = require('./model');
 const _ = require('lodash');
 
 function createTimeInterval(req, res) {
-  const requestedTimeInterval =
-    typeof req.body === 'string' ? JSON.parse(req.body) : {};
+  const requestedTimeInterval = { ...req.body };
   requestedTimeInterval.owner = parseEmail({ req });
+  if (!requestedTimeInterval.start) {
+    requestedTimeInterval.start = new Date().getTime();
+  }
   const timeInterval = new TimeInterval(requestedTimeInterval);
   timeInterval.save((err, timeIntervalFromDB) => {
     if (!!err) {
@@ -26,8 +28,11 @@ function getTimeIntervals(req, res) {
     };
     return _.pickBy(result);
   })(req.params);
-  TimeInterval.find(conditions, function(err, timeIntervalsFromDB) {
-    !!timeIntervalsFromDB ? res.json([timeIntervalsFromDB]) : res.json([]);
+  TimeInterval.find(conditions, null, { sort: { start: -1 } }, function(
+    err,
+    timeIntervalsFromDB
+  ) {
+    !!timeIntervalsFromDB ? res.json(timeIntervalsFromDB) : res.json([]);
   });
 }
 
@@ -45,8 +50,12 @@ function closeTimeInterval(req, res) {
     {
       end: new Date().getTime(),
     },
-    function(err) {
-      res.json(err);
+    function(err, timeIntervalFromDB) {
+      if (!err) {
+        res.json(timeIntervalFromDB);
+      } else {
+        res.json(err);
+      }
     }
   );
 }
