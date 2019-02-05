@@ -49,6 +49,7 @@ function closeTimeInterval(req, res) {
   TimeInterval.findOneAndUpdate(
     { _id: req.params.id, end: { $exists: false } },
     { end: new Date().getTime() },
+    { new: true },
     function(err, timeIntervalFromDB) {
       if (!err) {
         res.json(timeIntervalFromDB);
