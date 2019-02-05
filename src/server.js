@@ -54,7 +54,7 @@ function defineEndpoints() {
     .delete(jwtCheck, timeInterval.deleteTimeInterval);
   app
     .route('/intervals/:id/close')
-    .post(jwtCheck, timeInterval.closeTimeInterval);
+    .patch(jwtCheck, timeInterval.closeTimeInterval);
 }
 
 function startListening() {

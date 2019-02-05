@@ -41,14 +41,10 @@ describe('timeIntervalUT', function() {
           return injectedEmail;
         },
       };
-      return proxyquire(
-        '/home/montolio/IdeaProjects/Timeman_backend/src/core/timeInterval/actions.js',
-        // '../../../src/core/timeInterval/actions',
-        {
-          './model': TimeIntervalSchemaMock,
-          '../../security/tokenDataDecoder.js': tokenDataDecoderMock,
-        }
-      );
+      return proxyquire('../../../src/core/timeInterval/actions', {
+        './model': TimeIntervalSchemaMock,
+        '../../security/tokenDataDecoder.js': tokenDataDecoderMock,
+      });
     }
 
     const timeIntervalActions = injectMocksToTestedModule(usersEmail);
