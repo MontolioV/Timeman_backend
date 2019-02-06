@@ -127,11 +127,12 @@ describe('timeIntervalUT', function() {
           'Only "start", "end" and "tags" params allowed',
         function() {
           const req = {
-            params: {
+            query: {
               id: '1',
               start: { $gte: 18 },
               end: { lte: 20 },
-              tags: { $in: ['sushi'] },
+              tags: 'sushi',
+              // tags: { $in: ['sushi'] },
               someParamThatIsNotAllowed: '',
             },
           };
@@ -143,13 +144,14 @@ describe('timeIntervalUT', function() {
           expect(response).to.be.deep.equal({
             start: { $gte: 18 },
             end: { lte: 20 },
-            tags: { $in: ['sushi'] },
+            tags: 'sushi',
+            // tags: { $in: ['sushi'] },
             owner: usersEmail,
           });
         }
       );
       it('should return empty array in case of no match', function() {
-        const req = { params: { start: 'someValueThatWillReturnNoMatch' } };
+        const req = { query: { start: 'someValueThatWillReturnNoMatch' } };
         let response;
         const res = {
           json: objFromDB => (response = objFromDB),

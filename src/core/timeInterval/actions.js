@@ -27,7 +27,7 @@ function getTimeIntervals(req, res) {
       owner: parseEmail({ req }),
     };
     return _.pickBy(result);
-  })(req.params);
+  })(req.query);
   TimeInterval.find(conditions, null, { sort: { start: -1 } }, function(
     err,
     timeIntervalsFromDB
