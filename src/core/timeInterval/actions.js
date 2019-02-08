@@ -3,7 +3,7 @@ const TimeInterval = require('./model');
 const _ = require('lodash');
 
 function createTimeInterval(req, res) {
-  const requestedTimeInterval = { ...req.body };
+  const requestedTimeInterval = req.body;
   requestedTimeInterval.owner = parseEmail({ req });
   if (!requestedTimeInterval.start) {
     requestedTimeInterval.start = new Date().getTime();
@@ -19,7 +19,7 @@ function createTimeInterval(req, res) {
 }
 
 function getTimeIntervals(req, res) {
-  const conditions = (({ start, end, tags }) => {
+  const conditions = (({ start, end, tags } = {}) => {
     let result = {
       start,
       end,
@@ -27,7 +27,8 @@ function getTimeIntervals(req, res) {
       owner: parseEmail({ req }),
     };
     return _.pickBy(result);
-  })(req.query);
+  })(req.body);
+  console.log(req.body);
   TimeInterval.find(conditions, null, { sort: { start: -1 } }, function(
     err,
     timeIntervalsFromDB

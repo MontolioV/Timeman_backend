@@ -46,8 +46,10 @@ function defineEndpoints() {
 
   app
     .route('/intervals')
-    .get(jwtCheck, timeInterval.getTimeIntervals)
     .post(jwtCheck, timeInterval.createTimeInterval);
+  app
+    .route('/intervals/search')
+    .post(jwtCheck, timeInterval.getTimeIntervals);
   app
     .route('/intervals/:id')
     .get(jwtCheck, timeInterval.getTimeIntervalById)

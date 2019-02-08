@@ -123,16 +123,16 @@ describe('timeIntervalUT', function() {
 
     describe('getTimeIntervals', function() {
       it(
-        'should return call Mongoose find with params end return 0 or more intervals, that were created by user. ' +
+        'should call Mongoose find with params end return 0 or more intervals, that were created by user. ' +
           'Only "start", "end" and "tags" params allowed',
         function() {
           const req = {
-            query: {
+            body: {
               id: '1',
               start: { $gte: 18 },
               end: { lte: 20 },
-              tags: 'sushi',
-              // tags: { $in: ['sushi'] },
+              // tags: 'sushi',
+              tags: { $in: ['sushi'] },
               someParamThatIsNotAllowed: '',
             },
           };
@@ -144,20 +144,31 @@ describe('timeIntervalUT', function() {
           expect(response).to.be.deep.equal({
             start: { $gte: 18 },
             end: { lte: 20 },
-            tags: 'sushi',
-            // tags: { $in: ['sushi'] },
+            // tags: 'sushi',
+            tags: { $in: ['sushi'] },
             owner: usersEmail,
           });
         }
       );
       it('should return empty array in case of no match', function() {
-        const req = { query: { start: 'someValueThatWillReturnNoMatch' } };
+        const req = { body: { start: 'someValueThatWillReturnNoMatch' } };
         let response;
         const res = {
           json: objFromDB => (response = objFromDB),
         };
         timeIntervalActions.getTimeIntervals(req, res);
         expect(response).to.be.deep.equal([]);
+      });
+      it('should return array of all intervals, that were created by user, when post request has no body', function() {
+        const req = {};
+        let response;
+        const res = {
+          json: objFromDB => (response = objFromDB),
+        };
+        timeIntervalActions.getTimeIntervals(req, res);
+        expect(response).to.be.deep.equal({
+          owner: usersEmail,
+        });
       });
     });
   });
