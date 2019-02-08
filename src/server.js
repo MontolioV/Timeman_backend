@@ -44,12 +44,8 @@ function defineEndpoints() {
     res.json({ message: 'Connection success, waiting for requests' })
   );
 
-  app
-    .route('/intervals')
-    .post(jwtCheck, timeInterval.createTimeInterval);
-  app
-    .route('/intervals/search')
-    .post(jwtCheck, timeInterval.getTimeIntervals);
+  app.route('/intervals').post(jwtCheck, timeInterval.createTimeInterval);
+  app.route('/intervals/search').post(jwtCheck, timeInterval.getTimeIntervals);
   app
     .route('/intervals/:id')
     .get(jwtCheck, timeInterval.getTimeIntervalById)
@@ -60,8 +56,12 @@ function defineEndpoints() {
 }
 
 function startListening() {
-  app.listen(config.ServerPort, function(req, res) {
-    console.log(`REST server started and listening port ${config.ServerPort}.`);
+  app.listen(config.ServerPort, 'localhost', function(req, res) {
+    console.log(
+      `REST server started and listening localhost at port ${
+        config.ServerPort
+      }.`
+    );
   });
 }
 
