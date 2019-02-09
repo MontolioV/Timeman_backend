@@ -28,7 +28,6 @@ function getTimeIntervals(req, res) {
     };
     return _.pickBy(result);
   })(req.body);
-  console.log(req.body);
   TimeInterval.find(conditions, null, { sort: { start: -1 } }, function(
     err,
     timeIntervalsFromDB
